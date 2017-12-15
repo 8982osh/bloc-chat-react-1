@@ -20,7 +20,7 @@ class App extends Component {
     return (
       <div className="App">
        <h1>Bloc Chat</h1>
-       <RoomList name={this.props.name}/>
+       <RoomList/>
       </div>
     );
   }
