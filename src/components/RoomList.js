@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
+import './roomlist.css';
 
 class RoomList extends Component {
 
@@ -7,7 +8,8 @@ class RoomList extends Component {
  constructor(props){
    super(props);
    this.state = {
-     rooms: []
+     rooms: [],
+     name: ''
    };
    this.roomsRef = firebase.database().ref('rooms');
  }
@@ -17,28 +19,38 @@ class RoomList extends Component {
      this.roomsRef.on('child_added', snapshot => {
      const room = snapshot.val();
      room.key = snapshot.key;
-     console.log(room.name,room.key);
      this.setState({ rooms: this.state.rooms.concat( room ) });
    });
   }
 
+ handleChange(e) {
+  this.setState({ name: e.target.value });
+ }
 
-// put this in for now to make the format a little prettier, but might
-// revise later
-formatName(str) {
-  var len = str.length;
-  var root = str.slice(0, len-1);
-  var end = str.slice(-1);
-  return root.charAt(0).toUpperCase() + root.slice(1) + " " + end;
-}
+ createRoom(e){
+   e.preventDefault();
+   const newRoom = this.state.name;
+   this.roomsRef.push({
+     name: newRoom
+   });
+   this.setState({ name: ' '});
+ }
+
+ componentWillUnmount(){
+   this.roomsRef.off();
+ }
 
   render(){
    return(
      <div>
        {
         this.state.rooms.map ( ( room, key ) =>
-         <p>{this.formatName(room.name)}</p>
+         <p>{room.name}</p>
         )}
+      <form onSubmit={(e) => this.createRoom(e)}>
+        <input type="text" value={this.name} onChange={(e) => this.handleChange(e)}/>
+        <input type="submit"/>
+      </form>
       </div>
    );
   }
