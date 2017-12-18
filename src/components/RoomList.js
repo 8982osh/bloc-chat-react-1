@@ -9,7 +9,8 @@ class RoomList extends Component {
    super(props);
    this.state = {
      rooms: [],
-     name: ''
+     name: '',
+     key: ''
    };
    this.roomsRef = firebase.database().ref('rooms');
  }
