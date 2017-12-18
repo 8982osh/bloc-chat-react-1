@@ -9,8 +9,7 @@ class RoomList extends Component {
    super(props);
    this.state = {
      rooms: [],
-     name: '',
-     key: ''
+     name: ''
    };
    this.roomsRef = firebase.database().ref('rooms');
  }
@@ -44,10 +43,10 @@ class RoomList extends Component {
   render(){
    return(
      <div>
-       {
-        this.state.rooms.map ( ( room, key ) =>
-         <p>{room.name}</p>
-        )}
+     {
+      this.state.rooms.map ( ( room, i ) =>
+       <ul key={room.key}>{room.name}</ul>
+      )}
       <form onSubmit={(e) => this.createRoom(e)}>
         <input type="text" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
         <input type="submit"/>
