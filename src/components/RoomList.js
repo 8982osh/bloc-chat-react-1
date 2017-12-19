@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
 import './roomlist.css';
-// import App from './../App';
 
 class RoomList extends Component {
 
@@ -12,7 +10,7 @@ class RoomList extends Component {
      rooms: [],
      name: ''
    };
-   this.roomsRef = firebase.database().ref('rooms');
+   this.roomsRef = this.props.firebase.database().ref('rooms');
  }
 
   componentDidMount() {
@@ -43,12 +41,14 @@ class RoomList extends Component {
   render(){
    return(
      <div>
+     <ul>
        {
         this.state.rooms.map ( ( room, index ) =>
-         <ul key={room.key} onClick={(e) => this.props.handleRoomSelect(e)}>
+         <li key={room.key} onClick={()=> this.props.handleRoomSelect(room.key)}>
          {room.name}
-         </ul>
+         </li>
        )}
+      </ul>
       <form onSubmit={(e) => this.createRoom(e)}>
         <input type="text" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
         <input type="submit"/>
