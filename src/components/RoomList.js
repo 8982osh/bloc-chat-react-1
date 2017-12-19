@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import './roomlist.css';
 
 class RoomList extends Component {
-
-// set up the initial state using the constructor method
  constructor(props){
    super(props);
    this.state = {
@@ -14,12 +12,14 @@ class RoomList extends Component {
  }
 
   componentDidMount() {
-     this.roomsRef.on('child_added', snapshot => {
-     const room = snapshot.val();
-     room.key = snapshot.key;
-     this.setState({ rooms: this.state.rooms.concat( room ) });
-   });
+     this.roomsRef.on('child_added', (snapshot) => this.loadRoomList(snapshot));
   }
+
+ loadRoomList(snapshot){
+   const room = snapshot.val();
+   room.key = snapshot.key;
+   this.setState({ rooms: this.state.rooms.concat( room ) });
+ }
 
  handleChange(e) {
   this.setState({ name: e.target.value });
@@ -35,7 +35,7 @@ class RoomList extends Component {
  }
 
  componentWillUnmount(){
-   this.roomsRef.off();
+   this.roomsRef.off(this.loadRoomList);
  }
 
   render(){

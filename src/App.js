@@ -24,8 +24,8 @@ class App extends Component {
   }
 
   handleRoomSelect(roomId){
-    //this.setState({ currentRoomId: roomId });
-    this.setState({currentRoomId: roomId}, () => console.log(this.state.currentRoomId));
+    // this.setState({currentRoomId: roomId}, () => console.log(this.state.currentRoomId));
+    this.setState({currentRoomId: roomId});
   }
 
   render() {
