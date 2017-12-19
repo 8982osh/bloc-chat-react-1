@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
 import './roomlist.css';
-// import App from './../App';
 
 class RoomList extends Component {
-
-// set up the initial state using the constructor method
  constructor(props){
    super(props);
    this.state = {
      rooms: [],
      name: ''
    };
-   this.roomsRef = firebase.database().ref('rooms');
+   this.roomsRef = this.props.firebase.database().ref('rooms');
  }
 
   componentDidMount() {
-     this.roomsRef.on('child_added', snapshot => {
-     const room = snapshot.val();
-     room.key = snapshot.key;
-     this.setState({ rooms: this.state.rooms.concat( room ) });
-   });
+     this.roomsRef.on('child_added', (snapshot) => this.loadRoomList(snapshot));
   }
+
+ loadRoomList(snapshot){
+   const room = snapshot.val();
+   room.key = snapshot.key;
+   this.setState({ rooms: this.state.rooms.concat( room ) });
+ }
 
  handleChange(e) {
   this.setState({ name: e.target.value });
@@ -37,25 +35,20 @@ class RoomList extends Component {
  }
 
  componentWillUnmount(){
-   this.roomsRef.off();
+   this.roomsRef.off(this.loadRoomList);
  }
 
   render(){
    return(
      <div>
-<<<<<<< HEAD
-     {
-      this.state.rooms.map ( ( room, i ) =>
-       <ul key={room.key}>{room.name}</ul>
-      )}
-=======
+     <ul>
        {
         this.state.rooms.map ( ( room, index ) =>
-         <ul key={room.key} onClick={(e) => this.props.handleRoomSelect(e)}>
+         <li key={room.key} onClick={()=> this.props.handleRoomSelect(room.key)}>
          {room.name}
-         </ul>
+         </li>
        )}
->>>>>>> checkpoint_04
+      </ul>
       <form onSubmit={(e) => this.createRoom(e)}>
         <input type="text" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
         <input type="submit"/>
