@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import './roomlist.css';
+// import App from './../App';
 
 class RoomList extends Component {
 
@@ -14,7 +15,6 @@ class RoomList extends Component {
    this.roomsRef = firebase.database().ref('rooms');
  }
 
-  // set up real-time event listeners for the database
   componentDidMount() {
      this.roomsRef.on('child_added', snapshot => {
      const room = snapshot.val();
@@ -43,10 +43,19 @@ class RoomList extends Component {
   render(){
    return(
      <div>
+<<<<<<< HEAD
      {
       this.state.rooms.map ( ( room, i ) =>
        <ul key={room.key}>{room.name}</ul>
       )}
+=======
+       {
+        this.state.rooms.map ( ( room, index ) =>
+         <ul key={room.key} onClick={(e) => this.props.handleRoomSelect(e)}>
+         {room.name}
+         </ul>
+       )}
+>>>>>>> checkpoint_04
       <form onSubmit={(e) => this.createRoom(e)}>
         <input type="text" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
         <input type="submit"/>
