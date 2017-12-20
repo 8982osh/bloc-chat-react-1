@@ -69,7 +69,7 @@ componentWillUnmount(){
       </ul>
       <form onSubmit={(e) => this.createNewMessage(e)}>
         <input type="text" value={this.state.content} onChange={(e) => this.handleNewMessage(e)}/>
-        <input type="button"/>
+        <button>Send</button>
       </form>
       </div>
      );
