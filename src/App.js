@@ -16,8 +16,6 @@ import User from './components/User';
   };
   firebase.initializeApp(config);
 
-  const auth = firebase.auth();
-
 class App extends Component {
   constructor(props){
     super(props);
@@ -53,7 +51,6 @@ class App extends Component {
        />
        <User
         firebase={firebase}
-        auth={auth}
         currentUsername={this.state.user}
         setUser={(e) => this.setUser(e)}
        />
