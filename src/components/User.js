@@ -25,9 +25,9 @@ class User extends Component {
 
  render(){
    return(
-     <div>
-      <button onClick={this.login}>Sign In</button>
-      <button onClick={this.logout}>Sign Out</button>
+     <div className="loginInfo">
+      <button id="signInButton" onClick={this.login}>Sign In</button>
+      <button id="logOutButton" onClick={this.logout}>Sign Out</button>
       <p>Current user: {this.props.currentUsername}</p>
     </div>
 

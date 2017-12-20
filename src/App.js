@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
+//import './App.css';
 import * as firebase from 'firebase';
 import RoomList from './components/RoomList';
 import MessageList from './components/MessageList';
 import User from './components/User';
-
+import './components/styles.css';
 
   var config = {
     apiKey: "AIzaSyBkV6QU5l9fqc29-EWU6JOA2iMdls_BI-k",
@@ -39,7 +39,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="container">
        <h1>Bloc Chat</h1>
        <RoomList
        handleRoomSelect={(e) => this.handleRoomSelect(e) }

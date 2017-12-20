@@ -1,0 +1,108 @@
+
+/* App div has className "container"*/
+.container {
+  display: grid;
+  font-family: Garamond, Helvetica, sans-serif;
+  margin: 0 auto;
+  max-width: 900px;
+  padding-top: 1rem;
+  grid-template-areas:
+  "header header"
+  "rooms chatBox"
+  "footer footer"
+}
+
+/* RoomList div has the className "chatRoomDiv" */
+.chatRoomDiv {
+  grid-area: rooms;
+  padding: 2rem 2rem;
+}
+
+/* MessageList div has the className "messageListDiv" */
+.messageListDiv {
+  grid-area: chatBox;
+  margin: 0;
+}
+
+/* User div has className "loginInfo"  */
+.loginInfo {
+  grid-area: footer;
+  padding-bottom: 2rem;
+  padding-top: 0.25rem;
+  text-align: center;
+}
+
+/* ul for rooms has className "chatRooms" */
+.chatRooms {
+  margin: 0 auto;
+  padding-top: 0;
+  padding-bottom: 1rem;
+}
+
+/* li's for rooms have className "roomNames" */
+.roomNames{
+  padding: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.roomNames:hover {
+  color: purple;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* li's for messages have className "messages" */
+.messageList {
+ padding: 0.25rem;
+ font-family: fantasy, cursive, sans-serif;
+ font-size: 1rem;
+}
+
+/* Bloc Chat header  */
+h1 {
+  background-color: purple;
+  color: white;
+  grid-area: header;
+  padding-left: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-shadow: 1px 2px cornflowerblue;
+}
+
+/* Current user info */
+p {
+ font-size: 1rem;
+ font-weight: bold;
+}
+
+/* form for submitting a room className "submitChatRoomForm" */
+.submitChatRoomForm {
+  padding: 1rem;
+}
+
+/* form for sending message className "submitMessageForm" */
+.submitMessageForm {
+  padding: 1rem;
+}
+
+input[type="text"] {
+  width: 30%;
+  font-size: 0.7rem;
+}
+
+textarea {
+  font-size: 0.7rem;
+}
+/* buttons */
+button {
+  font-size: 0.7rem;
+}
+
+button:hover {
+  color: blue;
+  font-weight: bold;
+}
+
+#messageButton {
+  margin: 0.5rem;
+}

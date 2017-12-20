@@ -57,19 +57,17 @@ componentWillUnmount(){
 
   render(){
      return(
-       <div>
-       <ul>
-       </ul>
-       <ul>
+       <div className="messageListDiv">
+       <ul className="messageList">
        {
         this.state.currentRoomMessages.map( (message, index) =>
-         <li key={index}>{message.content}</li>
+         <li className="messages" key={index}>{message.content}</li>
         )
       }
       </ul>
-      <form onSubmit={(e) => this.createNewMessage(e)}>
-        <input type="text" value={this.state.content} onChange={(e) => this.handleNewMessage(e)}/>
-        <button>Send</button>
+      <form className="submitMessageForm" onSubmit={(e) => this.createNewMessage(e)}>
+        <textarea placeholder="Type your message here..." value={this.state.content} onChange={(e) => this.handleNewMessage(e)}/>
+        <button id="messageButton">Send</button>
       </form>
       </div>
      );

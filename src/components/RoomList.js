@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './roomlist.css';
 
 class RoomList extends Component {
  constructor(props){
@@ -40,18 +39,18 @@ class RoomList extends Component {
 
   render(){
    return(
-     <div>
-     <ul>
+     <div className="chatRoomDiv">
+     <ul className="chatRooms">
        {
         this.state.rooms.map ( ( room, index ) =>
-         <li key={room.key} onClick={()=> this.props.handleRoomSelect(room.key)}>
+         <li className="roomNames" key={room.key} onClick={()=> this.props.handleRoomSelect(room.key)}>
          {room.name}
          </li>
        )}
       </ul>
-      <form onSubmit={(e) => this.createRoom(e)}>
-        <input type="text" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
-        <input type="submit"/>
+      <form className="submitChatRoomForm" onSubmit={(e) => this.createRoom(e)}>
+        <input type="text" placeholder="Add a chat room..." id="submitRoomInput" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
+        <button id="submitRoomButton">Submit</button>
       </form>
       </div>
    );
