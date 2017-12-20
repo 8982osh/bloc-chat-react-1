@@ -6,7 +6,8 @@ class MessageList extends Component {
     super(props);
     this.state = {
       messages: [],
-      currentRoomMessages: []
+      currentRoomMessages: [],
+      content: ''
     };
     this.messageRef = this.props.firebase.database().ref('messages');
   }
@@ -32,6 +33,23 @@ updateMessages(currentRoomId){
   this.setState({ currentRoomMessages: currentMessages });
 }
 
+// push new message to messageList & assoc. message with user
+createNewMessage(e){
+  e.preventDefault();
+  const newMessage = this.state.content;
+  this.messageRef.push({
+    content: newMessage,
+    username: this.props.currentUsername,
+    roomId: this.props.currentRoomId
+  });
+  this.setState({ content: ' '});
+}
+
+// get the contents of the message
+handleNewMessage(e) {
+ this.setState({ content: e.target.value });
+}
+
 componentWillUnmount(){
   this.messageRef.off(this.loadMessageList);
 }
@@ -39,11 +57,21 @@ componentWillUnmount(){
 
   render(){
      return(
-       <ul>{
+       <div>
+       <ul>
+       </ul>
+       <ul>
+       {
         this.state.currentRoomMessages.map( (message, index) =>
          <li key={index}>{message.content}</li>
         )
-      }</ul>
+      }
+      </ul>
+      <form onSubmit={(e) => this.createNewMessage(e)}>
+        <input type="text" value={this.state.content} onChange={(e) => this.handleNewMessage(e)}/>
+        <input type="button"/>
+      </form>
+      </div>
      );
   }
 }
