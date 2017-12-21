@@ -33,38 +33,39 @@ updateMessages(currentRoomId){
   this.setState({ currentRoomMessages: currentMessages });
 }
 
-// push new message to messageList & assoc. message with user
 createNewMessage(e){
   e.preventDefault();
+  var timestamp = new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
   const newMessage = this.state.content;
   this.messageRef.push({
     content: newMessage,
     username: this.props.currentUsername,
-    roomId: this.props.currentRoomId
+    roomId: this.props.currentRoomId,
+    sentAt: timestamp
   });
   this.setState({ content: ' '});
+  this.updateMessages(this.props.currentRoomId);
 }
 
-// get the contents of the message
 handleNewMessage(e) {
  this.setState({ content: e.target.value });
 }
 
 componentWillUnmount(){
-  this.messageRef.off(this.loadMessageList);
+  this.messageRef.off('child_added', (snapshot) => this.loadMessageList(snapshot));
 }
-
 
   render(){
      return(
        <div className="messageListDiv">
-       <div className="messageList">
        {
         this.state.currentRoomMessages.map( (message, index) =>
-         <p className="messageSender" key={index}>{message.username}: {message.content}</p>
+         <div className="messageList">
+          <p className="messageDetails" key={index}>{message.username}:
+           {message.sentAt} {message.content}</p>
+         </div>
         )
       }
-      </div>
       <form className="submitMessageForm" onSubmit={(e) => this.createNewMessage(e)}>
         <textarea placeholder="Type your message here..." value={this.state.content} onChange={(e) => this.handleNewMessage(e)}/>
         <button id="messageButton">Send</button>

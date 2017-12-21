@@ -34,7 +34,7 @@ class RoomList extends Component {
  }
 
  componentWillUnmount(){
-   this.roomsRef.off(this.loadRoomList);
+   this.roomsRef.off('child_added', (snapshot) => this.loadRoomList(snapshot));
  }
 
   render(){
@@ -49,7 +49,7 @@ class RoomList extends Component {
        )}
       </ul>
       <form className="submitChatRoomForm" onSubmit={(e) => this.createRoom(e)}>
-        <input type="text" placeholder="Add a chat room..." id="submitRoomInput" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
+        <input type="text" placeholder="Add a room..." id="submitRoomInput" value={this.state.name} onChange={(e) => this.handleChange(e)}/>
         <button id="submitRoomButton">Submit</button>
       </form>
       </div>

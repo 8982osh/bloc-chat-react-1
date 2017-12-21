@@ -16,12 +16,13 @@ import './components/styles.css';
   };
   firebase.initializeApp(config);
 
+
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       currentRoomId: 0,
-      user: null,
+      user: null
     };
   }
 
