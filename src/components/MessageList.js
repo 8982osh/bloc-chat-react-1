@@ -45,7 +45,7 @@ createNewMessage(e){
 }
 
 handleNewMessage(e) {
- this.setState({ content: e.target.value }, ()=> this.updateMessages(this.props.currentRoomId));
+ this.setState({ content: e.target.value }, () => this.updateMessages(this.props.currentRoomId));
 }
 
 deleteMessage(messageId){
@@ -53,7 +53,7 @@ deleteMessage(messageId){
     return e.key !== messageId;
   });
   this.setState({ currentRoomMessages: filteredMessages });
-  this.setState({ messages: filteredMessages });
+  this.messageRef.child(messageId).remove();
 }
 
 componentWillUnmount(){

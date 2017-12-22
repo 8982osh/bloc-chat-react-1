@@ -37,6 +37,7 @@ updateRooms(currentRoomId){
      return e.key !== currentRoomId;
    });
    this.setState({ rooms: filteredRooms });
+   this.roomsRef.child(currentRoomId).remove();
  }
 
  componentWillUnmount(){
