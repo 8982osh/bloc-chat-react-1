@@ -48,6 +48,14 @@ handleNewMessage(e) {
  this.setState({ content: e.target.value }, ()=> this.updateMessages(this.props.currentRoomId));
 }
 
+deleteMessage(messageId){
+  const filteredMessages = this.state.currentRoomMessages.filter(function(e){
+    return e.key !== messageId;
+  });
+  this.setState({ currentRoomMessages: filteredMessages });
+  this.setState({ messages: filteredMessages });
+}
+
 componentWillUnmount(){
   this.messageRef.off('child_added', (snapshot) => {
   const message = snapshot.val();
@@ -64,7 +72,9 @@ componentWillUnmount(){
        {
         this.state.currentRoomMessages.map( (message, index) =>
           <p className="messageDetails" key={message.key}>{message.username}:
-           {message.sentAt} {message.content}</p>
+           {message.sentAt} {message.content}
+           <button id="deleteMessageButton" onClick={(e) => this.deleteMessage(message.key)}>Delete</button>
+           </p>
         )
       }
           </div>
