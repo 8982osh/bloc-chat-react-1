@@ -13,17 +13,17 @@ class MessageList extends Component {
   }
 
   componentDidMount() {
-     this.messageRef.on('child_added', (snapshot) => this.loadMessageList(snapshot));
-  }
-
-  loadMessageList(snapshot){
-    const message = snapshot.val();
-    message.key = snapshot.key;
-    this.setState({ messages: this.state.messages.concat( message ) });
+       this.messageRef.on('child_added', (snapshot) => {
+       const message = snapshot.val();
+       message.key = snapshot.key;
+       this.setState({ messages: this.state.messages.concat( message ) });
+     });
+       console.log('componentDidMount called');
   }
 
  componentWillReceiveProps(nextProps){
    this.updateMessages(nextProps.currentRoomId);
+   console.log('componentWillReceiveProps called..');
  }
 
 updateMessages(currentRoomId){
@@ -52,7 +52,11 @@ handleNewMessage(e) {
 }
 
 componentWillUnmount(){
-  this.messageRef.off('child_added', (snapshot) => this.loadMessageList(snapshot));
+  this.messageRef.off('child_added', (snapshot) => {
+  const message = snapshot.val();
+  message.key = snapshot.key;
+  this.setState({ messages: this.state.messages.concat( message ) });
+});
 }
 
   render(){
