@@ -44,6 +44,7 @@ class App extends Component {
        <h1>Bloc Chat</h1>
        <RoomList
        handleRoomSelect={(e) => this.handleRoomSelect(e) }
+       currentRoomId={this.state.currentRoomId}
        firebase={firebase}
        />
        <MessageList

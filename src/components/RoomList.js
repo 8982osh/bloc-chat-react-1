@@ -5,23 +5,22 @@ class RoomList extends Component {
    super(props);
    this.state = {
      rooms: [],
+     currentRooms: [],
      name: ''
    };
    this.roomsRef = this.props.firebase.database().ref('rooms');
  }
 
   componentDidMount() {
-     this.roomsRef.on('child_added', (snapshot) => this.loadRoomList(snapshot));
+     this.roomsRef.on('child_added', (snapshot) => {
+       const room = snapshot.val();
+       room.key = snapshot.key;
+       this.setState({ rooms: this.state.rooms.concat( room ) });
+     });
   }
 
- loadRoomList(snapshot){
-   const room = snapshot.val();
-   room.key = snapshot.key;
-   this.setState({ rooms: this.state.rooms.concat( room ) });
- }
-
  handleChange(e) {
-  this.setState({ name: e.target.value });
+  this.setState({ name: e.target.value }, ()=> this.updateRooms(this.props.currentRoomId));
  }
 
  createRoom(e){
@@ -30,11 +29,22 @@ class RoomList extends Component {
    this.roomsRef.push({
      name: newRoom
    });
-   this.setState({ name: ' '});
+   this.setState({ name: ' '}, () => this.updateRooms(this.props.currentRoomId));
+ }
+
+updateRooms(currentRoomId){
+   const filteredRooms = this.state.rooms.filter(function(e){
+     return e.key !== currentRoomId;
+   });
+   this.setState({ rooms: filteredRooms });
  }
 
  componentWillUnmount(){
-   this.roomsRef.off('child_added', (snapshot) => this.loadRoomList(snapshot));
+   this.roomsRef.off('child_added', (snapshot) => {
+     const room = snapshot.val();
+     room.key = snapshot.key;
+     this.setState({ rooms: this.state.rooms.concat( room ) });
+   });
  }
 
   render(){
@@ -45,6 +55,7 @@ class RoomList extends Component {
         this.state.rooms.map ( ( room, index ) =>
          <li className="roomNames" key={room.key} onClick={()=> this.props.handleRoomSelect(room.key)}>
          {room.name}
+         <button id="deleteRoomButton" onClick={(e) => this.updateRooms(room.key)}>Delete</button>
          </li>
        )}
       </ul>
