@@ -64,8 +64,8 @@ componentWillUnmount(){
        <div className="messageListDiv">
        {
         this.state.currentRoomMessages.map( (message, index) =>
-         <div className="messageList">
-          <p className="messageDetails" key={index}>{message.username}:
+         <div className="messageList" key={index}>
+          <p className="messageDetails" key={message.key}>{message.username}:
            {message.sentAt} {message.content}</p>
          </div>
         )

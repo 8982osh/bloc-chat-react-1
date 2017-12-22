@@ -53,7 +53,6 @@
 
 /* li's for messages have className "messages" */
 .messageList {
- padding: 0.25rem;
  font-family: fantasy, cursive, sans-serif;
  font-size: 1rem;
 }
