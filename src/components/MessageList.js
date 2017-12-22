@@ -18,12 +18,10 @@ class MessageList extends Component {
        message.key = snapshot.key;
        this.setState({ messages: this.state.messages.concat( message ) });
      });
-       console.log('componentDidMount called');
   }
 
  componentWillReceiveProps(nextProps){
    this.updateMessages(nextProps.currentRoomId);
-   console.log('componentWillReceiveProps called..');
  }
 
 updateMessages(currentRoomId){
@@ -43,12 +41,11 @@ createNewMessage(e){
     roomId: this.props.currentRoomId,
     sentAt: timestamp
   });
-  this.setState({ content: ' '});
-  this.updateMessages(this.props.currentRoomId);
+ this.setState({ content: ' '}, () => this.updateMessages(this.props.currentRoomId));
 }
 
 handleNewMessage(e) {
- this.setState({ content: e.target.value });
+ this.setState({ content: e.target.value }, ()=> this.updateMessages(this.props.currentRoomId));
 }
 
 componentWillUnmount(){
@@ -60,19 +57,20 @@ componentWillUnmount(){
 }
 
   render(){
+
      return(
        <div className="messageListDiv">
+         <div className="messageList">
        {
         this.state.currentRoomMessages.map( (message, index) =>
-         <div className="messageList" key={index}>
           <p className="messageDetails" key={message.key}>{message.username}:
            {message.sentAt} {message.content}</p>
-         </div>
         )
       }
-      <form className="submitMessageForm" onSubmit={(e) => this.createNewMessage(e)}>
+          </div>
+       <form className="submitMessageForm" onSubmit={(e) => this.createNewMessage(e)}>
         <textarea placeholder="Type your message here..." value={this.state.content} onChange={(e) => this.handleNewMessage(e)}/>
-        <button id="messageButton">Send</button>
+        <button>Send</button>
       </form>
       </div>
      );
