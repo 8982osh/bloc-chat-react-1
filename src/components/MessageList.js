@@ -52,8 +52,8 @@ deleteMessage(messageId){
   const filteredMessages = this.state.currentRoomMessages.filter(function(e){
     return e.key !== messageId;
   });
-  this.setState({ currentRoomMessages: filteredMessages });
   this.messageRef.child(messageId).remove();
+  this.setState({ currentRoomMessages: filteredMessages });
 }
 
 componentWillUnmount(){
@@ -65,7 +65,6 @@ componentWillUnmount(){
 }
 
   render(){
-
      return(
        <div className="messageListDiv">
          <div className="messageList">
