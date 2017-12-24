@@ -18,6 +18,15 @@ class MessageList extends Component {
        message.key = snapshot.key;
        this.setState({ messages: this.state.messages.concat( message ) });
      });
+
+     this.messageRef.on('child_removed', (snapshot) => {
+       const messageToDelete = snapshot.val();
+       messageToDelete.key = snapshot.key;
+       this.setState({ messages: this.state.messages.filter( function(e){
+           return e.key !== messageToDelete.key;
+         })
+        });
+      });
   }
 
  componentWillReceiveProps(nextProps){
@@ -62,6 +71,7 @@ componentWillUnmount(){
   message.key = snapshot.key;
   this.setState({ messages: this.state.messages.concat( message ) });
 });
+
 }
 
   render(){
