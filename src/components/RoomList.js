@@ -19,12 +19,12 @@ class RoomList extends Component {
 
   }
 
- handleChange(e) {
-  this.setState({ name: e.target.value }, () => this.updateRooms(this.props.currentRoomId));
+ handleChange(event) {
+  this.setState({ name: event.target.value });
  }
 
- editName(e) {
-  this.setState({ name: e.target.value });
+ editName(event) {
+  this.setState({ name: event.target.value });
  }
 
  createRoom(e){
@@ -36,11 +36,8 @@ class RoomList extends Component {
    this.setState({ name: ' '}, () => this.updateRooms(this.props.currentRoomId));
  }
 
-// still need to work on this method
-// name does not clear properly after assignment
-// does update on screen and in firebase need to check for bugs...
-renameRoom(e){
-  e.preventDefault();
+renameRoom(event){
+  event.preventDefault();
   const newName = this.state.name;
   const roomKey = this.props.currentRoomId;
   this.state.rooms.forEach(function(room){
@@ -49,15 +46,19 @@ renameRoom(e){
     }
  });
  this.roomsRef.child(roomKey).update({ "name": newName });
- this.setState({ name: ' '});
+ this.setState({ name: ''});
 }
 
-updateRooms(currentRoomId){
-   const filteredRooms = this.state.rooms.filter(function(e){
-     return e.key !== currentRoomId;
-   });
+deleteRoom(currentRoomId){
+  const filteredRooms = this.state.rooms.filter(function(e){
+    return e.key !== currentRoomId;
+  });
    this.setState({ rooms: filteredRooms });
    this.roomsRef.child(currentRoomId).remove();
+ }
+
+ updateRooms(currentRoomId){
+   this.setState({ rooms: this.state.rooms, name: ''});
  }
 
  componentWillUnmount(){
@@ -79,13 +80,12 @@ updateRooms(currentRoomId){
          <form onSubmit={(e) => this.renameRoom(e)}>
           <input type="text"
           placeholder="Edit room name..."
-          value={this.state.value}
-          onChange={(e) => this.editName(e)}/>
+          value={this.state.name}
+          onChange={this.editName.bind(this)}/>
           <input type="submit"/>
-          <button id="deleteRoomButton" onClick={(e) => this.updateRooms(room.key)}>Delete</button>
+          <button id="deleteRoomButton" onClick={(e) => this.deleteRoom(room.key)}>Delete</button>
           </form>
          </li>
-
        )}
       </ul>
       <form className="submitChatRoomForm" onSubmit={(e) => this.createRoom(e)}>
@@ -93,7 +93,7 @@ updateRooms(currentRoomId){
         placeholder="Add a room..."
         id="submitRoomInput"
         value={this.state.name}
-        onChange={(e) => this.handleChange(e)}/>
+        onChange={this.handleChange.bind(this)}/>
         <button id="submitRoomButton">Submit</button>
       </form>
       </div>
