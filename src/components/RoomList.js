@@ -8,7 +8,6 @@ class RoomList extends Component {
      name: ''
    };
    this.roomsRef = this.props.firebase.database().ref('rooms');
-   this.handleChange = this.handleChange.bind(this);
  }
 
   componentDidMount() {
@@ -76,11 +75,12 @@ deleteRoom(currentRoomId){
          {room.name}
          <form onSubmit={this.renameRoom.bind(this)}>
           <input
+          id="renameRoomForm"
           type="text"
           name="name"
           placeholder="Edit room name..."
           value={this.state.name}
-          onChange={this.handleChange}/>
+          onChange={this.handleChange.bind(this)}/>
           <input type="submit"/>
           <button id="deleteRoomButton" onClick={(e) => this.deleteRoom(room.key)}>Delete</button>
           </form>
@@ -89,12 +89,12 @@ deleteRoom(currentRoomId){
       </ul>
       <form className="submitChatRoomForm" onSubmit={this.createRoom.bind(this)}>
         <input
+        id="submitRoomForm"
         type="text"
         name="name"
         placeholder="Add a room..."
-        id="submitRoomInput"
         value={this.state.name}
-        onChange={this.handleChange}/>
+        onChange={this.handleChange.bind(this)}/>
         <button id="submitRoomButton">Submit</button>
       </form>
       </div>
