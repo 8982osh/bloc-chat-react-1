@@ -8,6 +8,7 @@ class RoomList extends Component {
      name: ''
    };
    this.roomsRef = this.props.firebase.database().ref('rooms');
+   this.handleChange = this.handleChange.bind(this);
  }
 
   componentDidMount() {
@@ -20,7 +21,7 @@ class RoomList extends Component {
   }
 
  handleChange(event) {
-  this.setState({ name: event.target.value });
+  this.setState({ [event.target.name]: event.target.value });
  }
 
  createRoom(e){
@@ -74,10 +75,12 @@ deleteRoom(currentRoomId){
          <li className="roomNames" key={room.key} onClick={()=> this.props.handleRoomSelect(room.key)}>
          {room.name}
          <form onSubmit={this.renameRoom.bind(this)}>
-          <input type="text"
+          <input
+          type="text"
+          name="name"
           placeholder="Edit room name..."
-          value={this.state.newName}
-          onChange={this.handleChange.bind(this)}/>
+          value={this.state.name}
+          onChange={this.handleChange}/>
           <input type="submit"/>
           <button id="deleteRoomButton" onClick={(e) => this.deleteRoom(room.key)}>Delete</button>
           </form>
@@ -85,11 +88,13 @@ deleteRoom(currentRoomId){
        )}
       </ul>
       <form className="submitChatRoomForm" onSubmit={this.createRoom.bind(this)}>
-        <input type="text"
+        <input
+        type="text"
+        name="name"
         placeholder="Add a room..."
         id="submitRoomInput"
         value={this.state.name}
-        onChange={this.handleChange.bind(this)}/>
+        onChange={this.handleChange}/>
         <button id="submitRoomButton">Submit</button>
       </form>
       </div>
