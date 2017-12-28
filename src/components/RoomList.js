@@ -23,10 +23,6 @@ class RoomList extends Component {
   this.setState({ name: event.target.value });
  }
 
- editName(event) {
-  this.setState({ name: event.target.value });
- }
-
  createRoom(e){
    e.preventDefault();
    const newRoom = this.state.name;
@@ -77,18 +73,18 @@ deleteRoom(currentRoomId){
         this.state.rooms.map ( ( room, index ) =>
          <li className="roomNames" key={room.key} onClick={()=> this.props.handleRoomSelect(room.key)}>
          {room.name}
-         <form onSubmit={(e) => this.renameRoom(e)}>
+         <form onSubmit={this.renameRoom.bind(this)}>
           <input type="text"
           placeholder="Edit room name..."
-          value={this.state.name}
-          onChange={this.editName.bind(this)}/>
+          value={this.state.newName}
+          onChange={this.handleChange.bind(this)}/>
           <input type="submit"/>
           <button id="deleteRoomButton" onClick={(e) => this.deleteRoom(room.key)}>Delete</button>
           </form>
          </li>
        )}
       </ul>
-      <form className="submitChatRoomForm" onSubmit={(e) => this.createRoom(e)}>
+      <form className="submitChatRoomForm" onSubmit={this.createRoom.bind(this)}>
         <input type="text"
         placeholder="Add a room..."
         id="submitRoomInput"
