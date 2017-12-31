@@ -17,7 +17,6 @@ class RoomList extends Component {
        room.key = snapshot.key;
        this.setState({ rooms: this.state.rooms.concat( room ) });
      });
-
   }
 
 handleChange(e) {
@@ -47,6 +46,7 @@ renameRoom(e){
       room['name'] = newName;
     }
  });
+ console.log(`${this.roomsRef.child(roomKey)}`);
  this.roomsRef.child(roomKey).update({ "name": newName });
  this.rename.value = '';
  this.setState({ rename: ' '});

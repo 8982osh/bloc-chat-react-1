@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   handleRoomSelect(roomId){
-    this.setState({currentRoomId: roomId });
+    this.setState({ currentRoomId: roomId });
   }
 
   setUser(user){
