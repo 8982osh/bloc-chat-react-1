@@ -67,7 +67,7 @@ editMessage(e){
   e.preventDefault();
   const newMessage = this.state.newContent;
   const messageKey = this.state.currentMessageId;
-  this.state.currentRoomMessages.forEach(function(message){
+  this.state.messages.forEach(function(message){
     if (message.key === messageKey){
       message["content"] = newMessage;
     }
@@ -101,7 +101,7 @@ componentWillUnmount(){
          <ul className="messageList">
        {
         this.state.currentRoomMessages.map( (message, index) =>
-          <li className="messageDetails" key={message.key}>
+          <li className="messageDetails" key={message.key} onClick={()=> this.props.handleRoomSelect(message.roomId)}>
           {message.username}:
            {message.sentAt} {message.content}
           <form onSubmit={this.editMessage.bind(this)}>
