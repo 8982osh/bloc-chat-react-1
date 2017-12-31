@@ -5,7 +5,8 @@ class RoomList extends Component {
    super(props);
    this.state = {
      rooms: [],
-     name: ''
+     name: '',
+     rename: ''
    };
    this.roomsRef = this.props.firebase.database().ref('rooms');
  }
@@ -19,22 +20,27 @@ class RoomList extends Component {
 
   }
 
- handleChange(event) {
-  this.setState({ [event.target.name]: event.target.value });
- }
+handleChange(e) {
+ this.setState({ name: e.target.value });
+}
 
- createRoom(e){
+handleRename(e) {
+ this.setState({ rename: e.target.value });
+}
+
+createRoom(e){
    e.preventDefault();
    const newRoom = this.state.name;
    this.roomsRef.push({
      name: newRoom
    });
+   this.name.value = '';
    this.setState({ name: ' '}, () => this.updateRooms(this.props.currentRoomId));
- }
+}
 
-renameRoom(event){
-  event.preventDefault();
-  const newName = this.state.name;
+renameRoom(e){
+  e.preventDefault();
+  const newName = this.state.rename;
   const roomKey = this.props.currentRoomId;
   this.state.rooms.forEach(function(room){
     if (room.key === roomKey){
@@ -42,7 +48,8 @@ renameRoom(event){
     }
  });
  this.roomsRef.child(roomKey).update({ "name": newName });
- this.setState({ name: ''});
+ this.rename.value = '';
+ this.setState({ rename: ' '});
 }
 
 deleteRoom(currentRoomId){
@@ -76,11 +83,12 @@ deleteRoom(currentRoomId){
          <form onSubmit={this.renameRoom.bind(this)}>
           <input
           id="renameRoomForm"
+          name="rename"
           type="text"
-          name="name"
-          placeholder="Edit room name..."
-          value={this.state.name}
-          onChange={this.handleChange.bind(this)}/>
+          placeholder="Edit room name.."
+          ref={input => this.rename = input}
+          onChange={this.handleRename.bind(this)}
+          />
           <input type="submit"/>
           <button id="deleteRoomButton" onClick={(e) => this.deleteRoom(room.key)}>Delete</button>
           </form>
@@ -93,7 +101,7 @@ deleteRoom(currentRoomId){
         type="text"
         name="name"
         placeholder="Add a room..."
-        value={this.state.name}
+        ref={nroom => this.name = nroom}
         onChange={this.handleChange.bind(this)}/>
         <button id="submitRoomButton">Submit</button>
       </form>
