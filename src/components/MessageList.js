@@ -59,7 +59,7 @@ createNewMessage(e){
     roomId: this.props.currentRoomId,
     sentAt: timestamp
   });
-  this.content.value = '';
+ this.content.value = '';
  this.setState({ content: ' '}, () => this.updateMessages(this.props.currentRoomId, this.props.currentMessageId));
 }
 
