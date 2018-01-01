@@ -60,6 +60,7 @@ createNewMessage(e){
     roomId: this.props.currentRoomId,
     sentAt: timestamp
   });
+  this.content.value = '';
  this.setState({ content: ' '}, () => this.updateMessages(this.props.currentRoomId));
 }
 
@@ -83,7 +84,7 @@ deleteMessage(messageId){
     return e.key !== messageId;
   });
   this.messageRef.child(messageId).remove();
-  this.setState({ currentRoomMessages: filteredMessages });
+  this.setState({ currentRoomMessages: filteredMessages },() => this.updateMessages(this.props.currentRoomId));
 }
 
 componentWillUnmount(){
@@ -92,7 +93,6 @@ componentWillUnmount(){
   message.key = snapshot.key;
   this.setState({ messages: this.state.messages.concat( message ) });
 });
-
 }
 
   render(){
@@ -120,11 +120,12 @@ componentWillUnmount(){
         )
       }
           </ul>
-       <form className="submitMessageForm" onSubmit={(e) => this.createNewMessage(e)}>
+       <form className="submitMessageForm" onSubmit={this.createNewMessage.bind(this)}>
         <textarea
+        name="content"
         placeholder="Type your message here..."
-        value={this.state.content}
-        onChange={(e) => this.handleNewMessage(e)}/>
+        ref={input => this.content = input}
+        onChange={this.handleNewMessage.bind(this)}/>
         <button>Send</button>
       </form>
       </div>
