@@ -22,12 +22,13 @@ class App extends Component {
     super(props);
     this.state = {
       currentRoomId: 0,
-      user: null
+      user: null,
+      currentMessageId: 0
     };
   }
 
-  handleRoomSelect(roomId){
-    this.setState({ currentRoomId: roomId });
+  handleRoomSelect(roomId,messageId=0){
+    this.setState({ currentRoomId: roomId, currentMessageId: messageId });
   }
 
   setUser(user){
@@ -49,8 +50,9 @@ class App extends Component {
        />
        <MessageList
        firebase={firebase}
-       handleRoomSelect={(e) => this.handleRoomSelect(e) }
+       handleRoomSelect={(room,message) => this.handleRoomSelect(room,message) }
        currentRoomId={this.state.currentRoomId}
+       currentMessageId={this.state.currentMessageId}
        currentUsername={this.state.user}
        />
        <User

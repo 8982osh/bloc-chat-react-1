@@ -8,8 +8,7 @@ class MessageList extends Component {
       messages: [],
       currentRoomMessages: [],
       content: '',
-      newContent: '',
-      currentMessageId: 0
+      newContent: ''
     };
     this.messageRef = this.props.firebase.database().ref('messages');
   }
@@ -18,7 +17,7 @@ class MessageList extends Component {
        this.messageRef.on('child_added', (snapshot) => {
        const message = snapshot.val();
        message.key = snapshot.key;
-       this.setState({ messages: this.state.messages.concat( message ), currentMessageId: message.key });
+       this.setState({ messages: this.state.messages.concat( message ) });
      });
 
      this.messageRef.on('child_removed', (snapshot) => {
@@ -32,18 +31,18 @@ class MessageList extends Component {
   }
 
  componentWillReceiveProps(nextProps){
-   this.updateMessages(nextProps.currentRoomId);
+   this.updateMessages(nextProps.currentRoomId, nextProps.currentMessageId);
  }
 
-updateMessages(currentRoomId){
+updateMessages(currentRoomId,messageId){
   const currentMessages = this.state.messages.filter(function(e){
     return e.roomId === currentRoomId;
   });
-  this.setState({ currentRoomMessages: currentMessages });
+  this.setState({ currentRoomMessages: currentMessages, currentMessageId: messageId });
 }
 
 handleNewMessage(e) {
- this.setState({ content: e.target.value }, () => this.updateMessages(this.props.currentRoomId));
+ this.setState({ content: e.target.value }, () => this.updateMessages(this.props.currentRoomId, this.props.currentMessageId));
 }
 
 handleEdit(e){
@@ -61,14 +60,14 @@ createNewMessage(e){
     sentAt: timestamp
   });
   this.content.value = '';
- this.setState({ content: ' '}, () => this.updateMessages(this.props.currentRoomId));
+ this.setState({ content: ' '}, () => this.updateMessages(this.props.currentRoomId, this.props.currentMessageId));
 }
 
 editMessage(e){
   e.preventDefault();
   const newMessage = this.state.newContent;
-  const messageKey = this.state.currentMessageId;
-  this.state.messages.forEach(function(message){
+  const messageKey = this.props.currentMessageId;
+  this.state.currentRoomMessages.forEach(function(message){
     if (message.key === messageKey){
       message["content"] = newMessage;
     }
@@ -76,7 +75,7 @@ editMessage(e){
   var obj = { content: newMessage};
   this.messageRef.child(messageKey).update(obj);
   this.newContent.value = '';
-  this.setState({newContent: ' '}, () => this.updateMessages(this.props.currentRoomId));
+  this.setState({newContent: ' '}, () => this.updateMessages(this.props.currentRoomId, this.props.currentMessageId));
 }
 
 deleteMessage(messageId){
@@ -84,15 +83,15 @@ deleteMessage(messageId){
     return e.key !== messageId;
   });
   this.messageRef.child(messageId).remove();
-  this.setState({ currentRoomMessages: filteredMessages },() => this.updateMessages(this.props.currentRoomId));
+  this.setState({ currentRoomMessages: filteredMessages },() => this.updateMessages(this.props.currentRoomId, this.props.currentMessageId));
 }
 
 componentWillUnmount(){
   this.messageRef.off('child_added', (snapshot) => {
-  const message = snapshot.val();
-  message.key = snapshot.key;
-  this.setState({ messages: this.state.messages.concat( message ) });
-});
+    const message = snapshot.val();
+    message.key = snapshot.key;
+    this.setState({ messages: this.state.messages.concat( message ) });
+  });
 }
 
   render(){
@@ -101,12 +100,11 @@ componentWillUnmount(){
          <ul className="messageList">
        {
         this.state.currentRoomMessages.map( (message, index) =>
-          <li className="messageDetails" key={message.key} onClick={()=> this.props.handleRoomSelect(message.roomId)}>
-          {message.username}:
+          <li className="messageDetails" key={message.key} onClick={()=> this.props.handleRoomSelect(message.roomId, message.key)}>
+           {message.username}:
            {message.sentAt} {message.content}
           <form onSubmit={this.editMessage.bind(this)}>
            <input
-           id={message.key}
            name="newContent"
            type="text"
            ref={input => this.newContent = input}
