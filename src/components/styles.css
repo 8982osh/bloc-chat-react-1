@@ -49,6 +49,7 @@
   color: purple;
   font-weight: bold;
   font-size: 1.5rem;
+  cursor: pointer;
 }
 
 /* li's for messages have className "messages" */
@@ -100,6 +101,7 @@ button {
 button:hover {
   color: blue;
   font-weight: bold;
+  cursor: pointer;
 }
 
 #messageButton {
