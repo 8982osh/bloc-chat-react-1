@@ -1,5 +1,4 @@
 
-/* App div has className "container"*/
 .container {
   display: grid;
   font-family: Garamond, Helvetica, sans-serif;
@@ -12,19 +11,16 @@
   "footer footer"
 }
 
-/* RoomList div has the className "chatRoomDiv" */
 .chatRoomDiv {
   grid-area: rooms;
   padding: 2rem 2rem;
 }
 
-/* MessageList div has the className "messageListDiv" */
 .messageListDiv {
   grid-area: chatBox;
   margin: 0;
 }
 
-/* User div has className "loginInfo"  */
 .loginInfo {
   grid-area: footer;
   padding-bottom: 2rem;
@@ -32,14 +28,12 @@
   text-align: center;
 }
 
-/* ul for rooms has className "chatRooms" */
 .chatRooms {
   margin: 0 auto;
   padding-top: 0;
   padding-bottom: 1rem;
 }
 
-/* li's for rooms have className "roomNames" */
 .roomNames{
   padding: 0.5rem;
   font-size: 1.25rem;
@@ -52,13 +46,11 @@
   cursor: pointer;
 }
 
-/* li's for messages have className "messages" */
 .messageList {
  font-family: fantasy, cursive, sans-serif;
  font-size: 1rem;
 }
 
-/* Bloc Chat header  */
 h1 {
   background-color: purple;
   color: white;
@@ -69,18 +61,15 @@ h1 {
   text-shadow: 1px 2px cornflowerblue;
 }
 
-/* Current user info */
 p {
  font-size: 1rem;
  font-weight: bold;
 }
 
-/* form for submitting a room className "submitChatRoomForm" */
 .submitChatRoomForm {
   padding: 1rem;
 }
 
-/* form for sending message className "submitMessageForm" */
 .submitMessageForm {
   padding: 1rem;
 }
@@ -90,10 +79,14 @@ input[type="text"] {
   font-size: 0.7rem;
 }
 
+input[type="submit"]:hover {
+ cursor: pointer;
+}
+
 textarea {
   font-size: 0.7rem;
 }
-/* buttons */
+
 button {
   font-size: 0.7rem;
 }
@@ -102,8 +95,4 @@ button:hover {
   color: blue;
   font-weight: bold;
   cursor: pointer;
-}
-
-#messageButton {
-  margin: 0.5rem;
 }
