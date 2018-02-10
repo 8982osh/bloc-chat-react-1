@@ -8,6 +8,9 @@
 ## Set-up and Installation
 To run Bloc Chat locally:
 - clone the github repository
+```
 $ npm install
 $ npm start
+
+```
 navigate to localhost:3000
