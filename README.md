@@ -14,3 +14,5 @@ $ npm start
 
 ```
 navigate to localhost:3000
+
+Check out the live version here on [Firebase](https://bloc-chat-react-firebase.firebaseapp.com/)
