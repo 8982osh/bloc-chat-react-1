@@ -53,12 +53,14 @@ createNewMessage(e){
   e.preventDefault();
   var timestamp = new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
   const newMessage = this.state.content;
+
   this.messageRef.push({
     content: newMessage,
     username: this.props.currentUsername,
     roomId: this.props.currentRoomId,
     sentAt: timestamp
   });
+
  this.content.value = '';
  this.setState({ content: ' '}, () => this.updateMessages(this.props.currentRoomId, this.props.currentMessageId));
 }

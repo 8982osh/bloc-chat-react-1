@@ -30,9 +30,12 @@ handleRename(e) {
 createRoom(e){
    e.preventDefault();
    const newRoom = this.state.name;
-   this.roomsRef.push({
-     name: newRoom
-   });
+
+  if (newRoom.length >= 1) {
+     this.roomsRef.push({
+       name: newRoom
+     });
+   }
    this.name.value = '';
    this.setState({ name: ' '}, () => this.updateRooms(this.props.currentRoomId));
 }
@@ -41,12 +44,15 @@ renameRoom(e){
   e.preventDefault();
   const newName = this.state.rename;
   const roomKey = this.props.currentRoomId;
-  this.state.rooms.forEach(function(room){
-    if (room.key === roomKey){
-      room['name'] = newName;
-    }
- });
+
+  if (newName.length >= 1) {
+    this.state.rooms.forEach(function(room){
+      if (room.key === roomKey){
+        room['name'] = newName;
+      }
+    });
  this.roomsRef.child(roomKey).update({ "name": newName });
+}
  this.rename.value = '';
  this.setState({ rename: ' '});
 }
